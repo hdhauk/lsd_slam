@@ -129,6 +129,13 @@ int main( int argc, char** argv )
 {
 	ros::init(argc, argv, "LSD_SLAM");
 
+	dynamic_reconfigure::Server<lsd_slam::LSDParamsConfig> srv(ros::NodeHandle("~"));
+	srv.setCallback(dynConfCb);
+
+	dynamic_reconfigure::Server<lsd_slam::LSDDebugParamsConfig> srvDebug(ros::NodeHandle("~Debug"));
+	srvDebug.setCallback(dynConfCbDebug);
+
+	packagePath = ros::package::getPath("lsd_slam_core")+"/";
 
 	// get camera calibration in form of an undistorter object.
 	// if no undistortion is required, the undistorter will just pass images through.
