@@ -129,15 +129,6 @@ int main( int argc, char** argv )
 {
 	ros::init(argc, argv, "LSD_SLAM");
 
-	dynamic_reconfigure::Server<lsd_slam_core::LSDParamsConfig> srv(ros::NodeHandle("~"));
-	srv.setCallback(dynConfCb);
-
-	dynamic_reconfigure::Server<lsd_slam_core::LSDDebugParamsConfig> srvDebug(ros::NodeHandle("~Debug"));
-	srvDebug.setCallback(dynConfCbDebug);
-
-	packagePath = ros::package::getPath("lsd_slam_core")+"/";
-
-
 
 	// get camera calibration in form of an undistorter object.
 	// if no undistortion is required, the undistorter will just pass images through.
@@ -178,7 +169,6 @@ int main( int argc, char** argv )
 	system->setVisualization(outputWrapper);
 
 
-
 	// open image files: first try to open as file.
 	std::string source;
 	std::vector<std::string> files;
@@ -203,15 +193,11 @@ int main( int argc, char** argv )
 		printf("could not load file list! wrong path / file?\n");
 	}
 
-
-
 	// get HZ
 	double hz = 0;
 	if(!ros::param::get("~hz", hz))
 		hz = 0;
 	ros::param::del("~hz");
-
-
 
 	cv::Mat image = cv::Mat(h,w,CV_8U);
 	int runningIDX=0;
@@ -267,10 +253,7 @@ int main( int argc, char** argv )
 			break;
 	}
 
-
 	system->finalize();
-
-
 
 	delete system;
 	delete undistorter;

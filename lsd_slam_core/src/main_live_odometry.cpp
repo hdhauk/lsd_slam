@@ -30,6 +30,8 @@
 #include "IOWrapper/ROS/ROSOutput3DWrapper.h"
 #include "IOWrapper/ROS/rosReconfigure.h"
 
+#include <ros/package.h>
+#include <ros/ros.h>
 #include <X11/Xlib.h>
 
 using namespace lsd_slam;
@@ -39,11 +41,11 @@ int main( int argc, char** argv )
 
 	ros::init(argc, argv, "LSD_SLAM");
 
-	dynamic_reconfigure::Server<lsd_slam_core::LSDParamsConfig> srv(ros::NodeHandle("~"));
-	srv.setCallback(dynConfCb);
-
-	dynamic_reconfigure::Server<lsd_slam_core::LSDDebugParamsConfig> srvDebug(ros::NodeHandle("~Debug"));
-	srvDebug.setCallback(dynConfCbDebug);
+//	dynamic_reconfigure::Server<lsd_slam_core::LSDParamsConfig> srv(ros::NodeHandle("~"));
+//	srv.setCallback(dynConfCb);
+//
+//	dynamic_reconfigure::Server<lsd_slam_core::LSDDebugParamsConfig> srvDebug(ros::NodeHandle("~Debug"));
+//	srvDebug.setCallback(dynConfCbDebug);
 
 	packagePath = ros::package::getPath("lsd_slam_core")+"/";
 

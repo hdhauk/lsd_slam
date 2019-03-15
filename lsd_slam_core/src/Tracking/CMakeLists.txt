@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 
-add_library(Tracking
+add_library(Tracking STATIC
         src/Relocalizer.cpp
         src/SE3Tracker.cpp
         src/Sim3Tracker.cpp

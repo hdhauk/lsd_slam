@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.6)
 
+list(APPEND CMAKE_PREFIX_PATH "/opt/ros/melodic")
+
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(g2o REQUIRED)
 
 
-add_library(util
+add_library(util STATIC
         src/globalFuncs.cpp
         src/settings.cpp
         src/SophusUtil.cpp
@@ -20,6 +23,7 @@ target_include_directories(util
 
 target_link_libraries(util
         opencv_core
+        opencv_calib3d
         Boost::boost
         Eigen3::Eigen
         thirdparty::sophus

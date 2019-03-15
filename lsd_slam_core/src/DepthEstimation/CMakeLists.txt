@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 find_package(OpenCV REQUIRED)
 
-add_library(DepthEstimation
+add_library(DepthEstimation STATIC
         src/DepthMap.cpp
         src/DepthMapPixelHypothesis.cpp
         )

@@ -18,7 +18,7 @@
 * along with LSD-SLAM. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Sim3Tracker.h"
+#include "Tracking/Sim3Tracker.h"
 #include <opencv2/highgui/highgui.hpp>
 #include "DataStructures/Frame.h"
 #include "Tracking/TrackingReference.h"

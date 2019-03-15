@@ -22,8 +22,6 @@
 
 
 #include <dynamic_reconfigure/server.h>
-#include "lsd_slam_core/LSDParamsConfig.h"
-#include "lsd_slam_core/LSDDebugParamsConfig.h"
 #include "util/settings.h"
 
 
@@ -32,73 +30,96 @@ namespace lsd_slam
 {
 
 
-void dynConfCbDebug(lsd_slam_core::LSDDebugParamsConfig &config, uint32_t level)
+void dynConfCbDebug()
 {
-	freeDebugParam1 = config.freeDebugParam1;
-	freeDebugParam2 = config.freeDebugParam2;
-	freeDebugParam3 = config.freeDebugParam3;
-	freeDebugParam4 = config.freeDebugParam4;
-	freeDebugParam5 = config.freeDebugParam5;
+	freeDebugParam1 = 1.f;
+	freeDebugParam2 = 1.f;
+	freeDebugParam3 = 1.f;
+	freeDebugParam4 = 1.f;
+	freeDebugParam5 = 1.f;
 
 
-	plotStereoImages = config.plotStereoImages;
-	plotTrackingIterationInfo = config.plotTrackingIterationInfo;
-	plotTracking = config.plotTracking;
+	plotStereoImages = false;
+	plotTrackingIterationInfo = false;
+	plotTracking = false;
 
-	printPropagationStatistics = config.printPropagationStatistics;
-	printFillHolesStatistics = config.printFillHolesStatistics;
-	printObserveStatistics = config.printObserveStatistics;
-	printObservePurgeStatistics = config.printObservePurgeStatistics;
-	printRegularizeStatistics = config.printRegularizeStatistics;
-	printLineStereoStatistics = config.printLineStereoStatistics;
-	printLineStereoFails = config.printLineStereoFails;
+	printPropagationStatistics = false;
+	printFillHolesStatistics = false;
+	printObserveStatistics = false;
+	printObservePurgeStatistics = false;
+	printRegularizeStatistics = false;
+	printLineStereoStatistics = false;
+	printLineStereoFails = false;
 
-	printFrameBuildDebugInfo = config.printFrameBuildDebugInfo;
-	printMemoryDebugInfo = config.printMemoryDebugInfo;
+	printFrameBuildDebugInfo = false;
+	printMemoryDebugInfo = false;
 
-	printTrackingIterationInfo = config.printTrackingIterationInfo;
-	printThreadingInfo = config.printThreadingInfo;
-	printMappingTiming = config.printMappingTiming;
-	printOverallTiming = config.printOverallTiming;
+	printTrackingIterationInfo = false;
+	printThreadingInfo = false;
+	printMappingTiming = false;
+	printOverallTiming = false;
 
-	printKeyframeSelectionInfo = config.printKeyframeSelectionInfo;
-	printConstraintSearchInfo = config.printConstraintSearchInfo;
-	printOptimizationInfo = config.printOptimizationInfo;
-	printRelocalizationInfo = config.printRelocalizationInfo;
+	printKeyframeSelectionInfo = false;
+	printConstraintSearchInfo = false;
+	printOptimizationInfo = false;
+	printRelocalizationInfo = false;
 
+	continuousPCOutput = false;
 
-	continuousPCOutput = config.continuousPCOutput;
-
-
-	saveKeyframes = config.saveKeyframes;
-	saveAllTracked = config.saveAllTracked;
-	saveLoopClosureImages = config.saveLoopClosureImages;
-	saveAllTrackingStages = config.saveAllTrackingStages;
+	saveKeyframes = false;
+	saveAllTracked = false;
+	saveLoopClosureImages = false;
+	saveAllTrackingStages = false;
 }
 
-void dynConfCb(lsd_slam_core::LSDParamsConfig &config, uint32_t level)
+void dynConfCb()
 {
-	allowNegativeIdepths = config.allowNegativeIdepths;
-	useSubpixelStereo = config.useSubpixelStereo;
-	multiThreading = config.multiThreading;
-	useAffineLightningEstimation = config.useAffineLightningEstimation;
+	// Allow idepth to be (slightle) negative, to avoid introducing a bias for far-away points.
+	allowNegativeIdepths = true;
+	// Compute subpixel-accurate stereo disparity.
+	useSubpixelStereo = true;
+	// Toggle Multi-Threading of DepthMap Estimation. Disable for less CPU usage, but possibly slightly less quality.
+	multiThreading = true;
+	// EXPERIMENTAL: Correct for global affine intensity changes during tracking. Might help if you have Problems with Auto-Exposure.
+	useAffineLightningEstimation = false;
 
-	KFDistWeight = config.KFDistWeight;
-	KFUsageWeight = config.KFUsageWeight;
+	// Determines how often Keyframes are taken, depending on the Distance to the current Keyframe. Larger -> more Keyframes.
+	// [0 <-> 20]
+	KFDistWeight = 3.0f;
+	// Determines how often Keyframes are taken, depending on the Overlap to the current Keyframe. Larger -> more Keyframes.
+	// [0 <-> 20]
+	KFUsageWeight = 4.0f;
 
-	minUseGrad = config.minUseGrad;
-	cameraPixelNoise2 = config.cameraPixelNoise*config.cameraPixelNoise;
-	depthSmoothingFactor = config.depthSmoothingFactor;
+	// Minimal Absolut Image Gradient for a Pixel to be used at all. Increase, if your camera has large image noise, Decrease if you have low image-noise and want to also exploit small gradients.
+	// [1 <-> 50]
+	minUseGrad = 5.0f;
+	// Image intensity noise used for e.g. tracking weight calculation. Sould be set larger than the actual sensor-noise, to also account for noise originating from discretization / linear interpolation.
+	// [1 <-> 50]
+	cameraPixelNoise2 = 4.0f;
+	// How much to smooth the depth map. Larger -> Less Smoothing
+	// [0 <-> 10]
+	depthSmoothingFactor = 1.f;
 
+	// Toggle Global Mapping Component on/off. Only takes effect after a reset.
+	doSlam = true;
+	// Use OpenFABMAP to find large loop-closures. Only takes effect after a reset, and requires LSD-SLAM to be compiled with FabMap.
+	useFabMap = false;
+	// Toggle Keyframe Re-Activation on/off: If close to an existing keyframe, re-activate it instead of creating a new one.
+	// If false, Map will continually grow even if the camera moves in a relatively constrained area; If false, the number of keyframes will not grow arbitrarily.
+	doKFReActivation = true;
+	// Toggle entire Keyframe Creating / Update module on/off:
+	// If false, only the Tracking Component stays active, which will prevent rapid motion or moving objects from corrupting the map.
+	doMapping = true;
 
-	doSlam = config.doSLAM;
-	useFabMap = config.useFabMap;
-	doKFReActivation = config.doKFReActivation;
-	doMapping = config.doMapping;
-
-	maxLoopClosureCandidates = config.maxLoopClosureCandidates;
-	loopclosureStrictness = config.loopclosureStrictness;
-	relocalizationTH = config.relocalizationTH;
+	// "Maximal of Loop-Closures that are tracked initially for each new keyframe."
+	// [0 <-> 50]
+	maxLoopClosureCandidates = 10;
+	// Threshold on reciprocal loop-closure consistency check, to be added to the map. Larger -> more (possibly wrong) Loopclosures.
+	// [0 <-> 100]
+	loopclosureStrictness = 1.5f;
+	// How good a relocalization-attempt has to be, to be accepted. Larger -> More Strict.
+	// [0 <-> 1]
+	relocalizationTH = 0.7f;
 }
 
 }
