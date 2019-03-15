@@ -21,6 +21,7 @@
 #define GL_GLEXT_PROTOTYPES 1
 
 #include "KeyFrameDisplay.h"
+#include <opencv2/opencv.hpp>
 #include <stdio.h>
 #include "settings.h"
 
@@ -33,7 +34,6 @@
 	#include <GL/glu.h>
 #endif
 
-#include <opencv2/opencv.hpp>
 
 #include <ros/package.h>
 
@@ -67,7 +67,7 @@ KeyFrameDisplay::~KeyFrameDisplay()
 }
 
 
-void KeyFrameDisplay::setFrom(lsd_slam_viewer::keyframeMsgConstPtr msg)
+void KeyFrameDisplay::setFrom(lsd_slam::keyframeMsgConstPtr msg)
 {
 	// copy over campose.
 	memcpy(camToWorld.data(), msg->camToWorld.data(), 7*sizeof(float));

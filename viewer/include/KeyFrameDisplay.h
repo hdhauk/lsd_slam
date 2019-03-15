@@ -24,7 +24,7 @@
 #include <Eigen/Core>
 
 #include "QGLViewer/qglviewer.h"
-#include "keyframeMsg.h"
+#include "lsd_slam/keyframeMsg.h"
 #include "sophus/sim3.hpp"
 
 #include <sstream>
@@ -54,7 +54,7 @@ public:
 	~KeyFrameDisplay();
 
 
-	void setFrom(lsd_slam_viewer::keyframeMsgConstPtr msg);
+	void setFrom(lsd_slam::keyframeMsgConstPtr msg);
 	void drawCam(float lineWidth = 1, float* color = 0);
 	void drawPC(float pointSize = 1, float alpha = 1);
 	void refreshPC();
