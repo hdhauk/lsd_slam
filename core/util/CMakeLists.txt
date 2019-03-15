@@ -14,7 +14,7 @@ add_library(util STATIC
         src/SophusUtil.cpp
         src/Undistorter.cpp
         )
-add_library(lsd_slam_core::util ALIAS util)
+add_library(lsd_slam::core::util ALIAS util)
 
 target_include_directories(util
         PUBLIC
@@ -27,7 +27,7 @@ target_link_libraries(util
         Boost::boost
         Eigen3::Eigen
         thirdparty::sophus
-        lsd_slam_core::IOWrapper
-        lsd_slam_core::DataStructures
+        lsd_slam::core::IOWrapper
+        lsd_slam::core::DataStructures
         )
 

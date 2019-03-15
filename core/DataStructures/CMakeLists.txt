@@ -6,7 +6,7 @@ add_library(DataStructures STATIC
         src/FramePoseStruct.cpp
         )
 
-add_library(lsd_slam_core::DataStructures ALIAS DataStructures)
+add_library(lsd_slam::core::DataStructures ALIAS DataStructures)
 
 target_include_directories(DataStructures
         PUBLIC
@@ -14,6 +14,6 @@ target_include_directories(DataStructures
         )
 
 target_link_libraries(DataStructures
-        lsd_slam_core::util
-        lsd_slam_core::Tracking
+        lsd_slam::core::util
+        lsd_slam::core::Tracking
         )

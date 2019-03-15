@@ -9,7 +9,7 @@ add_library(GlobalMapping STATIC
         src/TrackableKeyFrameSearch.cpp
         )
 
-add_library(lsd_slam_core::GlobalMapping ALIAS GlobalMapping)
+add_library(lsd_slam::core::GlobalMapping ALIAS GlobalMapping)
 
 target_include_directories(GlobalMapping
         PUBLIC
@@ -23,7 +23,7 @@ foreach(x ${g2o_LIBRARIES})
 endforeach()
 
 target_link_libraries(GlobalMapping
-        lsd_slam_core::util
+        lsd_slam::core::util
         g2o::core
         g2o::solver_pcg
         g2o::solver_csparse

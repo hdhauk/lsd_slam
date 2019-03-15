@@ -7,7 +7,7 @@ add_library(Tracking STATIC
         src/TrackingReference.cpp
         )
 
-add_library(lsd_slam_core::Tracking ALIAS Tracking)
+add_library(lsd_slam::core::Tracking ALIAS Tracking)
 
 target_include_directories(Tracking
         PUBLIC
@@ -23,9 +23,9 @@ target_link_libraries(Tracking
         opencv_core
         opencv_highgui
         Boost::thread
-        lsd_slam_core::DataStructures
-        lsd_slam_core::IOWrapper
-        lsd_slam_core::GlobalMapping
-        lsd_slam_core::DepthEstimation
-        lsd_slam_core::util
+        lsd_slam::core::DataStructures
+        lsd_slam::core::IOWrapper
+        lsd_slam::core::GlobalMapping
+        lsd_slam::core::DepthEstimation
+        lsd_slam::core::util
         )

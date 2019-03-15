@@ -22,9 +22,10 @@ add_library(IOWrapper STATIC
         src/ROSImageStreamThread.cpp
         src/Timestamp.cpp)
 
-add_library(lsd_slam_core::IOWrapper ALIAS IOWrapper)
+add_library(lsd_slam::core::IOWrapper ALIAS IOWrapper)
 
 add_dependencies(IOWrapper lsd_slam_generate_messages_cpp)
+
 target_include_directories(IOWrapper
         PUBLIC
             include
@@ -37,5 +38,5 @@ target_link_libraries(IOWrapper
         opencv_core
         opencv_imgproc
         Boost::thread
-        lsd_slam_core::util
+        lsd_slam::core::util
         )

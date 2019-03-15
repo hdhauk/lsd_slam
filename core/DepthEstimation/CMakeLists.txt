@@ -6,7 +6,7 @@ add_library(DepthEstimation STATIC
         src/DepthMap.cpp
         src/DepthMapPixelHypothesis.cpp
         )
-add_library(lsd_slam_core::DepthEstimation ALIAS DepthEstimation)
+add_library(lsd_slam::core::DepthEstimation ALIAS DepthEstimation)
 
 target_include_directories(DepthEstimation
         PUBLIC
@@ -16,6 +16,6 @@ target_include_directories(DepthEstimation
 target_link_libraries(DepthEstimation
         opencv_core
         opencv_imgproc
-        lsd_slam_core::util
-        lsd_slam_core::GlobalMapping
+        lsd_slam::core::util
+        lsd_slam::core::GlobalMapping
         )
