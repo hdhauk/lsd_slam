@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 generate_dynamic_reconfigure_options(
         config/LSDParams.cfg
         config/LSDDebugParams.cfg
+        config/LSDSLAMViewerParams.cfg
 )
 
 add_library(IOWrapper STATIC

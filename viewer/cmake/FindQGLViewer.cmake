@@ -1,4 +1,6 @@
 # Need to find both Qt4 and QGLViewer if the QQL support is to be built
+message("finding QGLViewer")
+
 FIND_PACKAGE(Qt4 COMPONENTS QtCore QtXml QtOpenGL QtGui)
 include(${QT_USE_FILE})
 
@@ -11,9 +13,10 @@ FIND_PATH(QGLVIEWER_INCLUDE_DIR qglviewer.h
   )
 
 find_library(QGLVIEWER_LIBRARY_RELEASE
-  NAMES qglviewer-qt4 qglviewer QGLViewer QGLViewer2
+  NAMES qglviewer-qt4 qglviewer QGLViewer QGLViewer2 QGLViewer-qt5
   PATHS /usr/lib
         /usr/local/lib
+        /usr/lib/x86_64-linux-gnu
         /opt/local/lib
         /sw/lib
         ENV QGLVIEWERROOT
@@ -26,6 +29,7 @@ find_library(QGLVIEWER_LIBRARY_DEBUG
   PATHS /usr/lib
         /usr/local/lib
         /opt/local/lib
+        /usr/lib/x86_64-linux-gnu
         /sw/lib
         ENV QGLVIEWERROOT
         ENV LD_LIBRARY_PATH

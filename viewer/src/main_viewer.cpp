@@ -25,7 +25,7 @@
 #include "PointCloudViewer.h"
 
 #include <dynamic_reconfigure/server.h>
-#include "lsd_slam_viewer/LSDSLAMViewerParamsConfig.h"
+#include "lsd_slam/LSDSLAMViewerParamsConfig.h"
 #include <qapplication.h>
 
 
@@ -42,7 +42,7 @@
 PointCloudViewer* viewer = 0;
 
 
-void dynConfCb(lsd_slam_viewer::LSDSLAMViewerParamsConfig &config, uint32_t level)
+void dynConfCb(lsd_slam::LSDSLAMViewerParamsConfig &config, uint32_t level)
 {
 
 	pointTesselation = config.pointTesselation;
@@ -66,7 +66,7 @@ void dynConfCb(lsd_slam_viewer::LSDSLAMViewerParamsConfig &config, uint32_t leve
 
 }
 
-void frameCb(lsd_slam_viewer::keyframeMsgConstPtr msg)
+void frameCb(lsd_slam::keyframeMsgConstPtr msg)
 {
 
 	if(msg->time > lastFrameTime) return;
@@ -74,7 +74,7 @@ void frameCb(lsd_slam_viewer::keyframeMsgConstPtr msg)
 	if(viewer != 0)
 		viewer->addFrameMsg(msg);
 }
-void graphCb(lsd_slam_viewer::keyframeGraphMsgConstPtr msg)
+void graphCb(lsd_slam::keyframeGraphMsgConstPtr msg)
 {
 	if(viewer != 0)
 		viewer->addGraphMsg(msg);
