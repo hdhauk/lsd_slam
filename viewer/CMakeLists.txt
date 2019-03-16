@@ -12,27 +12,24 @@ find_package(roslib REQUIRED)
 find_package(rosbag REQUIRED)
 find_package(Qt4)
 
-
-message("${QGLVIEWER_LIBRARY}")
-
-
-add_executable(lsd_slam_viewer
+add_executable(viewer
         src/KeyFrameDisplay.cpp
         src/KeyFrameGraphDisplay.cpp
         src/main_viewer.cpp
         src/PointCloudViewer.cpp
         src/settings.cpp
         )
-add_dependencies(lsd_slam_viewer lsd_slam_gencfg)
+add_executable(lsd_slam::viewer ALIAS viewer)
+add_dependencies(viewer lsd_slam_gencfg)
 
-target_include_directories(lsd_slam_viewer
+target_include_directories(viewer
         PRIVATE
             include
         PUBLIC
             ${roscpp_INCLUDE_DIRS}
         )
 
-target_link_libraries(lsd_slam_viewer
+target_link_libraries(viewer
         ${QGLVIEWER_LIBRARY}
         Qt4::QtCore
         Qt4::QtOpenGL
