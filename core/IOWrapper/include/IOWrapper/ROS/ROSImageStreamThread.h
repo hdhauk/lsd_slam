@@ -46,6 +46,7 @@ class ROSImageStreamThread : public InputImageStream
 {
 public:
 	ROSImageStreamThread();
+	ROSImageStreamThread(std::string channel);
 	~ROSImageStreamThread();
 	
 	/**

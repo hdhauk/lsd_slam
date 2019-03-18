@@ -95,7 +95,7 @@ void KeyFrameDisplay::setFrom(lsd_slam::keyframeMsgConstPtr msg)
 	{
 		if(msg->pointcloud.size() != 0)
 		{
-			printf("WARNING: PC with points, but number of points not right! (is %zu, should be %u*%dx%d=%u)\n",
+			printf("WARNING: PC with points, but number of points not right! (is %zu, should be %lu*%dx%d=%lu)\n",
 					msg->pointcloud.size(), sizeof(InputPointDense), width, height, width*height*sizeof(InputPointDense));
 		}
 	}

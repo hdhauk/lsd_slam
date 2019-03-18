@@ -55,6 +55,24 @@ ROSImageStreamThread::ROSImageStreamThread()
 	haveCalib = false;
 }
 
+	ROSImageStreamThread::ROSImageStreamThread(std::string channel)
+	{
+		// subscribe
+		vid_sub = nh_.subscribe(channel,1, &ROSImageStreamThread::vidCb, this);
+		printf("subscribing to \"%s\"\n", channel.c_str());
+
+
+		// wait for cam calib
+		width_ = height_ = 0;
+
+		// imagebuffer
+		imageBuffer = new NotifyBuffer<TimestampedMat>(8);
+		undistorter = 0;
+		lastSEQ = 0;
+
+		haveCalib = false;
+	}
+
 ROSImageStreamThread::~ROSImageStreamThread()
 {
 	delete imageBuffer;

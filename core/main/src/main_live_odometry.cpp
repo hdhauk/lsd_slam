@@ -33,6 +33,7 @@
 #include <ros/package.h>
 #include <ros/ros.h>
 #include <X11/Xlib.h>
+#include <getopt.h>
 
 using namespace lsd_slam;
 int main( int argc, char** argv )
@@ -47,18 +48,38 @@ int main( int argc, char** argv )
 	dynamic_reconfigure::Server<lsd_slam::LSDDebugParamsConfig> srvDebug(ros::NodeHandle("~Debug"));
 	srvDebug.setCallback(dynConfCbDebug);
 
-	packagePath = ros::package::getPath("lsd_slam_core")+"/";
+	constexpr int noArg = 0;
+	constexpr int required = 1;
+	constexpr int optional = 2;
+	const struct option longopts[] =
+		{
+			{"input", required, nullptr, 'i'},
+			{"config", required, nullptr, 'c'},
+		};
 
-	InputImageStream* inputStream = new ROSImageStreamThread();
-
-	std::string calibFile;
-	if(ros::param::get("~calib", calibFile))
+	int opt;
+	int idx;
+	std::string input_channel = "/camera/image_raw";
+	std::string config_file;
+	while ((opt = getopt_long(argc, argv, "i:c:", longopts, &idx)) != -1)
 	{
-		ros::param::del("~calib");
-		inputStream->setCalibration(calibFile);
+		switch(opt)
+		{
+			case 'i':
+				input_channel = optarg;
+				break;
+			case 'c':
+				config_file = optarg;
+				break;
+			default:
+				printf("unknown command line option\n");
+				return 1;
+		}
 	}
-	else
-		inputStream->setCalibration("");
+
+
+	InputImageStream* inputStream = new ROSImageStreamThread(input_channel);
+	inputStream->setCalibration(config_file);
 	inputStream->run();
 
 	Output3DWrapper* outputWrapper = new ROSOutput3DWrapper(inputStream->width(), inputStream->height());
